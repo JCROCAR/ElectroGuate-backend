@@ -51,8 +51,8 @@ class User(AbstractBaseUser, BaseModel , SoftDestroyModelMixin):
     last_login = None
     is_superuser = None
     
-    str_name = models.CharField(max_length=45)
-    str_surname = models.CharField(max_length=45)
-    str_password = models.CharField(max_length=45)
-    str_role = models.CharField(max_length=25)
-    str_phone_number = models.CharField(max_length=12)
+    str_name = models.CharField(max_length=45, blank=False)
+    str_surname = models.CharField(max_length=45, blank=False)
+    str_email = models.EmailField('email_address', unique=True)
+    str_role = models.CharField(max_length=25, blank=True)
+    str_phone_number = models.CharField(max_length=12, blank=False)

@@ -12,7 +12,7 @@ class UserSerializerRead(serializers.ModelSerializer):
             'id',
             'str_name',
             'str_surname',
-            'email',
+            'str_email',
             'str_role',
             'str_phone_number'
         )

@@ -37,6 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework_swagger',
+    'rest_framework',
+
     'users'
 ]
 
@@ -80,7 +83,7 @@ DATABASES = {
         'NAME': 'ElectroDB',
         'USER': 'ElectroDev',
         'PASSWORD': 'electro2020',
-        'HOST':'localhost',
+        'HOST': 'localhost',
         'DATABASE_PORT': '3306'
     }
 }
@@ -123,3 +126,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}

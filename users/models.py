@@ -59,7 +59,7 @@ class User(AbstractBaseUser, BaseModel , SoftDestroyModelMixin):
     str_name = models.CharField(max_length=45, blank=False)
     str_surname = models.CharField(max_length=45, blank=False)
     str_email = models.EmailField('email_address', unique=True)
-    str_role = models.CharField(max_length=25, blank=True)
+    str_role = models.CharField(max_length=25, blank=True, default="usuario")
     str_phone_number = models.CharField(max_length=12, blank=False)
 
     is_active = models.BooleanField(default=True)

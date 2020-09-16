@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework_swagger',
     'corsheaders',
-    'users'
+    'users',
+    'products'
 ]
 
 REST_FRAMEWORK = {
@@ -140,5 +141,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "ElectroGuate", "site_static")]
+STATIC_ROOT = os.path.join(BASE_DIR, "ElectroGuate", "static")
+STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "ElectroGuate", "media")
+MEDIA_URL = "/media/"

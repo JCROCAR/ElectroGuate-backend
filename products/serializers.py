@@ -14,7 +14,6 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
             'id',
             'str_name',
             'str_description',
-            'str_category',
             'str_product_code',
             'str_image_link',
             'int_amount',

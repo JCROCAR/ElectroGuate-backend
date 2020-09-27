@@ -25,7 +25,7 @@ class Product(models.Model):
     str_name = models.CharField(max_length=45, blank=False)
     str_description = models.CharField(max_length=45, default="")
     str_product_code = models.CharField(max_length=45, blank=False)
-    str_image_link = models.ImageField(_("Product_image"), upload_to=upload_to, blank=True)
+    str_image_link = models.ImageField(_("Product_image"), upload_to=upload_to, null=True)
     int_amount = models.IntegerField(blank=False)
     int_price = models.FloatField(blank=False)
     category_id = models.IntegerField(blank=False)

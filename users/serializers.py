@@ -26,8 +26,6 @@ class UserSerializerWrite(serializers.ModelSerializer):
         fields = '__all__'
     def create(self, validated_data):
         user = User(**validated_data)
-        print(validated_data)
-        print(validated_data['password'])
         user.is_active = True
         user.set_password(validated_data['password'])
         user.save()

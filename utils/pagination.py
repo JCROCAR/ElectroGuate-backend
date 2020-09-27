@@ -6,7 +6,7 @@ from rest_framework import status
 from collections import OrderedDict
 
 MESSAGE_OK = 'OK'
-PAGINATION_PAGE_SIZE = 50
+PAGINATION_PAGE_SIZE = 10
 
 class DefaultPageNumberPagination(PageNumberPagination):
     """

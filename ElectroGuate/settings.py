@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'corsheaders',
     'users',
-    'products'
+    'products',
+    'orders'
 ]
 
 REST_FRAMEWORK = {

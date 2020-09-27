@@ -21,6 +21,5 @@ class UserListAPIView(generics.ListCreateAPIView):
 #GET, PUT, DELETE
 class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializerRead
-    
+    serializer_class = serializers.UserSerializerWrite
 

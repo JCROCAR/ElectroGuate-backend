@@ -31,7 +31,7 @@ class DetailOrderSerializerRead(serializers.ModelSerializer):
     """
     Serializer to read data from DetailOrder
     """
-    product = ProductSerializer(many=True)
+    product = ProductSerializer(many=False)
     order = OrderSerializerRead(many=False)
     class Meta:
         model = DetailOrder

@@ -29,7 +29,7 @@ class OrderList(generics.ListCreateAPIView):
 
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
-    serializer_class = OrderSerializerRead
+    serializer_class = OrderSerializerWrite
 
 class DetailOrderList(generics.ListCreateAPIView):
     queryset = DetailOrder.objects.all()
@@ -54,4 +54,4 @@ class DetailOrderList(generics.ListCreateAPIView):
 
 class DetailOrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DetailOrder.objects.all()
-    serializer_class = DetailOrderSerializerRead
+    serializer_class = DetailOrderSerializerWrite

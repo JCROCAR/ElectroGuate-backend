@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from products.models import Product
-from products.serializers import ProductSerializer
+from .models import Product, Category, DetailProduct
+from .serializers import ProductSerializer, CategorySerializerRead, CategorySerializerWrite
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -32,3 +32,12 @@ class ProductList(generics.ListCreateAPIView):
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class CategoryList(generics.ListCreateAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializerWrite
+    pagination_class = PaginationData
+
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Category.objects.all()
+    serializer_class= CategorySerializerRead

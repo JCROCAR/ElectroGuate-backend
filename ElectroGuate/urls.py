@@ -19,15 +19,15 @@ from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls.static import static
 from django.conf import settings
 
-schema_view = get_swagger_view(title='Demo Swagger API')
-
-urlpatterns = [
+urlpatterns1 = [
     path('admin/', admin.site.urls),
     path('api/users/', include('users.urls')),
     path('api/products/', include('products.urls')),
     path('api/orders/', include('orders.urls')),
-    path('', schema_view),
 ]
-
+schema_view = get_swagger_view(title="Electro-Guate Documentation",patterns=urlpatterns1)
+urlpatterns = urlpatterns1 + [
+    path('',schema_view),
+]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

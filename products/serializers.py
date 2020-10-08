@@ -10,6 +10,7 @@ class CategorySerializerWrite(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = [
+            "id",
             "str_name",
             "str_description",
             "str_image_link",
@@ -55,6 +56,7 @@ class BrandSerializerWrite(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = [
+            "id",
             "str_name",
             "str_description",
             "str_image_link",
@@ -66,6 +68,7 @@ class BrandSerializerRead(serializers.ModelSerializer):
     class Meta:
         model = Brand
         fields = [
+            "id",
             "str_name",
             "str_description",
             "str_image_link",

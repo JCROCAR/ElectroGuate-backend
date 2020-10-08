@@ -25,7 +25,7 @@ SECRET_KEY = '9@4-@s=q^^%zn3f6h!)09vlzjp(b_(+8v6q8e5#cva76qj1es^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1','electro-guate.eastus.cloudapp.azure.com']
+ALLOWED_HOSTS = ['127.0.0.1','34.227.72.9','ec2-34-227-72-9.compute-1.amazonaws.com']
 
 
 # Application definition

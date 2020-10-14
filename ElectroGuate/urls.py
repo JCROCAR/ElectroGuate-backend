@@ -15,19 +15,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework_swagger.views import get_swagger_view
 from django.conf.urls.static import static
 from django.conf import settings
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
 
 urlpatterns1 = [
-    path('admin/', admin.site.urls),
-    path('api/users/', include('users.urls')),
-    path('api/products/', include('products.urls')),
-    path('api/orders/', include('orders.urls')),
+    path("admin/", admin.site.urls),
+    path("api/users/", include("users.urls")),
+    path("api/products/", include("products.urls")),
+    path("api/orders/", include("orders.urls")),
 ]
-schema_view = get_swagger_view(title="Electro-Guate Documentation",patterns=urlpatterns1)
+schema_view = get_schema_view(
+    openapi.Info(
+        title="ElectroGuate API",
+        default_version="v1",
+        description="ElectroGuate API Documentation",
+        terms_of_service="https://www.electroguate.com/",
+        contact=openapi.Contact(email="contact@electroGuate.local"),
+        license=openapi.License(name="Open License"),
+    ),
+    public=False,
+    patterns=urlpatterns1
+)
 urlpatterns = urlpatterns1 + [
-    path('',schema_view),
+    path("", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

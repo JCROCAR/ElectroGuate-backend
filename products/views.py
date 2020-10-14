@@ -6,20 +6,33 @@ from .serializers import (
     CategorySerializerWrite,
     BrandSerializerWrite,
     BrandSerializerRead,
+    ProductListSerializer,
 )
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, status
 from rest_framework.response import Response
 from utils.pagination import PaginationData
+from drf_yasg.utils import swagger_auto_schema
 
 
 # Create your views here.
-
-
 class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
+    serializer_class = {
+        "post": ProductListSerializer,
+        "get": ProductSerializer,
+    }
     pagination_class = PaginationData
+
+    def create(self, request, *args, **kwargs):
+        products = request.data["products"]
+        product_response = {"products": []}
+        for product in products:
+            serializer = ProductSerializer(data=product)
+            if serializer.is_valid():
+                serializer.save()
+                product_response["products"].append(serializer.data)
+        return Response(product_response, status=status.HTTP_201_CREATED)
 
     def get(self, request, format=None):
         products = self.get_queryset()
@@ -39,6 +52,12 @@ class ProductList(generics.ListCreateAPIView):
             response.data = serializer.data
             response.status_code = status.HTTP_200_OK
         return response
+
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return super().get_serializer_class()["get"]
+        else:
+            return super().get_serializer_class()["post"]
 
 
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):

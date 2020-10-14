@@ -51,6 +51,9 @@ class ProductSerializer(serializers.ModelSerializer):
             "brand",
         ]
 
+class ProductListSerializer(serializers.Serializer):
+    products=serializers.ListField(child=ProductSerializer())
+
 
 class BrandSerializerWrite(serializers.ModelSerializer):
     class Meta:

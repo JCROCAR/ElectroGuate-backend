@@ -23,3 +23,21 @@ class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializerWrite
 
+    def put(self, request, pk, format=None):
+        response = {
+            'status': 'OK',
+        }
+        httpStatus = status.HTTP_200_OK
+        user = models.User.objects.get(id=pk)
+        if user is not None:
+            serializer = serializers.UserSerializerRead(user, data=request.data,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+            else:
+                response['status'] = 'DATA_ERROR'
+                httpStatus = status.HTTP_400_BAD_REQUEST
+        else:
+            response['status'] = 'DATA_NOT_EXIST'
+            httpStatus = status.HTTP_404_NOT_FOUND
+        return Response(data=response, status=httpStatus)
+

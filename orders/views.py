@@ -4,6 +4,7 @@ from utils.pagination import PaginationData
 from rest_framework.response import Response
 from orders.models import Order, DetailOrder
 from .serializers import OrderSerializerRead, OrderSerializerWrite, DetailOrderSerializerRead, DetailOrderSerializerWrite
+from utils import permissions
 
 # Create your views here.
 
@@ -11,6 +12,7 @@ class OrderList(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializerWrite
     pagination_class = PaginationData
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
 
     def get(self, request, format=None):
         orders = self.get_queryset()
@@ -30,11 +32,13 @@ class OrderList(generics.ListCreateAPIView):
 class OrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializerWrite
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
 
 class DetailOrderList(generics.ListCreateAPIView):
     queryset = DetailOrder.objects.all()
     serializer_class = DetailOrderSerializerWrite
     pagination_class = PaginationData
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
 
 
     def get(self, request, format=None):
@@ -55,3 +59,4 @@ class DetailOrderList(generics.ListCreateAPIView):
 class DetailOrderDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = DetailOrder.objects.all()
     serializer_class = DetailOrderSerializerWrite
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES

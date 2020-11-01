@@ -4,6 +4,7 @@ from utils.pagination import PaginationData
 from rest_framework.response import Response
 from .models import Payment
 from .serializers import PaymentSerializerRead, PaymentSerializerWrite
+from utils import permissions
 
 # Create your views here.
 
@@ -11,6 +12,7 @@ class PaymentList(generics.ListCreateAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializerWrite
     pagination_class = PaginationData
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
 
     def get(self, request, format=None):
         payments = self.get_queryset()
@@ -30,3 +32,4 @@ class PaymentList(generics.ListCreateAPIView):
 class PaymentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Payment.objects.all()
     serializer_class = PaymentSerializerWrite
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES

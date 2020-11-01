@@ -6,6 +6,7 @@ from rest_framework import generics, status, views
 from django.conf import settings
 from . import models, serializers
 from utils.pagination import PaginationData
+from utils import permissions
 
 # Create your views here.
 
@@ -22,6 +23,7 @@ class UserListAPIView(generics.ListCreateAPIView):
 class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializerWrite
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
 
     def put(self, request, pk, format=None):
         response = {

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "users",
     "products",
     "orders",
+    "payments"
 ]
 SWAGGER_SETTINGS = {
     "DEFAULT_INFO": "import.path.to.urls.api_info",

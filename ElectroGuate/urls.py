@@ -19,6 +19,8 @@ from django.conf.urls.static import static
 from django.conf import settings
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework import permissions
+
 
 
 urlpatterns1 = [
@@ -33,12 +35,13 @@ schema_view = get_schema_view(
         title="ElectroGuate API",
         default_version="v1",
         description="ElectroGuate API Documentation",
-        terms_of_service="https://www.electroguate.com/",
+        terms_of_service="electroguate.me/",
         contact=openapi.Contact(email="contact@electroGuate.local"),
         license=openapi.License(name="Open License"),
     ),
-    public=False,
-    patterns=urlpatterns1
+    public=True,
+    patterns=urlpatterns1,
+    permission_classes=[permissions.AllowAny],
 )
 urlpatterns = urlpatterns1 + [
     path("", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

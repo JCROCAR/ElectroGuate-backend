@@ -111,3 +111,4 @@ venv.bak/
 cloud_sql_proxy_x64.exe
 
 config.json
+script.sh

@@ -49,10 +49,10 @@ class ProductList(generics.ListCreateAPIView):
                     prod.save()
                     for image in product["images"]:
                         image_url = upload_firebase.image(
-                            name=upload_firebase.decode_image(image["str_image"]),
+                            name=upload_firebase.decode_image(image["url_image"]),
                             folder="Product",
                         )
-                        img = Image(product=prod, str_image=image_url)
+                        img = Image(product=prod, url_image=image_url)
                         img.save()
                     products_response["products"].append(ProductSerializer(prod).data)
             return Response(products_response, status=status.HTTP_201_CREATED)
@@ -96,6 +96,19 @@ class CategoryList(generics.ListCreateAPIView):
     serializer_class = CategorySerializerWrite
     pagination_class = pagination.PaginationData
 
+    def create(self, request):
+        image_url = upload_firebase.image(
+            name=upload_firebase.decode_image(request.data["url_image"]),
+            folder="Category",
+        )
+        request.data["url_image"] = image_url
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
@@ -106,6 +119,19 @@ class BrandList(generics.ListCreateAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializerWrite
     pagination_class = pagination.PaginationData
+
+    def create(self, request):
+        image_url = upload_firebase.image(
+            name=upload_firebase.decode_image(request.data["url_image"]),
+            folder="Brand",
+        )
+        request.data["url_image"] = image_url
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class BrandDetail(generics.RetrieveUpdateDestroyAPIView):

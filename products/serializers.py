@@ -1,11 +1,20 @@
+from pyasn1.type.univ import Null
 from rest_framework import serializers
 from .models import Product, Category, Brand
 
+class ImageSerializer(serializers.Serializer):
+    url_image = serializers.CharField()
+    
+    class Meta:
+        fields=[
+            "url_image"
+        ]
 
 class CategorySerializerWrite(serializers.ModelSerializer):
     """
     Serializer to write data in Category
     """
+    url_image = serializers.CharField()
 
     class Meta:
         model = Category
@@ -31,19 +40,11 @@ class CategorySerializerRead(serializers.ModelSerializer):
             "url_image",
         ]
 
-class ImageSerializerWrite(serializers.Serializer):
-    str_image = serializers.CharField()
-    
-    class Meta:
-        fields=[
-            "url_image"
-        ]
-
 class ProductSerializer(serializers.ModelSerializer):
     """
     Serializer for product
     """
-    images = ImageSerializerWrite(many=True)
+    images = ImageSerializer(many=True)
     class Meta:
         model = Product
         fields = [
@@ -63,6 +64,7 @@ class ProductListSerializer(serializers.Serializer):
 
 
 class BrandSerializerWrite(serializers.ModelSerializer):
+    url_image = serializers.CharField()
     class Meta:
         model = Brand
         fields = [

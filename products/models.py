@@ -10,7 +10,7 @@ class Category(BaseModel):
 
     str_name = models.CharField(max_length=45)
     str_description = models.CharField(max_length=45)
-    url_image = models.URLField(max_length=250)
+    url_image = models.URLField(max_length=250, blank=True, null=True)
 
     def __str__(self):
         return self.str_name
@@ -23,7 +23,7 @@ class Brand(BaseModel):
 
     str_name = models.CharField(max_length=45)
     str_description = models.CharField(max_length=45)
-    url_image = models.URLField(max_length=250)
+    url_image = models.URLField(max_length=250, blank=True, null=True)
     category = models.ForeignKey(
         Category, default=1, related_name="brands", on_delete=models.CASCADE
     )
@@ -58,10 +58,10 @@ class Product(models.Model):
 
 
 class Image(models.Model):
-    url_image = models.URLField(max_length=250)
+    url_image = models.URLField(max_length=250, blank=True, null=True)
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="images"
     )
 
     def __str__(self):
-        return self.str_image
+        return self.url_image

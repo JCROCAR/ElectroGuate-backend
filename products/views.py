@@ -1,5 +1,10 @@
-from django.shortcuts import render
-from .models import Product, Category, Brand
+import re
+from .models import (
+    Product,
+    Category,
+    Brand,
+    Image,
+)
 from .serializers import (
     ProductSerializer,
     CategorySerializerRead,
@@ -8,11 +13,9 @@ from .serializers import (
     BrandSerializerRead,
     ProductListSerializer,
 )
-from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import generics, status
 from rest_framework.response import Response
-from utils.pagination import PaginationData
-from drf_yasg.utils import swagger_auto_schema
+from utils import pagination, upload_firebase
 
 
 # Create your views here.
@@ -22,17 +25,40 @@ class ProductList(generics.ListCreateAPIView):
         "post": ProductListSerializer,
         "get": ProductSerializer,
     }
-    pagination_class = PaginationData
+    pagination_class = pagination.PaginationData
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request):
         products = request.data["products"]
-        product_response = {"products": []}
-        for product in products:
-            serializer = ProductSerializer(data=product)
-            if serializer.is_valid():
-                serializer.save()
-                product_response["products"].append(serializer.data)
-        return Response(product_response, status=status.HTTP_201_CREATED)
+        products_response = {"products": []}
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            for product in products:
+                serializer_product = ProductSerializer(data=product)
+                if serializer_product.is_valid():
+                    cat = Category(id=product["category"])
+                    brd = Brand(id=product["brand"])
+                    prod = Product(
+                        str_name=product["str_name"],
+                        str_description=product["str_description"],
+                        str_product_code=product["str_product_code"],
+                        int_amount=product["int_amount"],
+                        int_price=product["int_price"],
+                        category=cat,
+                        brand=brd,
+                    )
+                    prod.save()
+                    for image in product["images"]:
+                        image_url = upload_firebase.image(
+                            name=upload_firebase.decode_image(image["str_image"]),
+                            folder="Product",
+                        )
+                        img = Image(product=prod, str_image=image_url)
+                        img.save()
+                    products_response["products"].append(ProductSerializer(prod).data)
+            return Response(products_response, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #
 
     def get(self, request, format=None):
         products = self.get_queryset()
@@ -68,7 +94,7 @@ class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
 class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializerWrite
-    pagination_class = PaginationData
+    pagination_class = pagination.PaginationData
 
 
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -79,7 +105,7 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
 class BrandList(generics.ListCreateAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializerWrite
-    pagination_class = PaginationData
+    pagination_class = pagination.PaginationData
 
 
 class BrandDetail(generics.RetrieveUpdateDestroyAPIView):

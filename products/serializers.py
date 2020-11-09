@@ -13,7 +13,7 @@ class CategorySerializerWrite(serializers.ModelSerializer):
             "id",
             "str_name",
             "str_description",
-            "str_image_link",
+            "url_image",
         ]
 
 
@@ -28,15 +28,22 @@ class CategorySerializerRead(serializers.ModelSerializer):
             "id",
             "str_name",
             "str_description",
-            "str_image_link",
+            "url_image",
         ]
 
+class ImageSerializerWrite(serializers.Serializer):
+    str_image = serializers.CharField()
+    
+    class Meta:
+        fields=[
+            "url_image"
+        ]
 
 class ProductSerializer(serializers.ModelSerializer):
     """
     Serializer for product
     """
-
+    images = ImageSerializerWrite(many=True)
     class Meta:
         model = Product
         fields = [
@@ -44,15 +51,15 @@ class ProductSerializer(serializers.ModelSerializer):
             "str_name",
             "str_description",
             "str_product_code",
-            "str_image_link",
             "int_amount",
             "int_price",
             "category",
             "brand",
+            "images"
         ]
 
 class ProductListSerializer(serializers.Serializer):
-    products=serializers.ListField(child=ProductSerializer())
+    products = ProductSerializer(many=True)
 
 
 class BrandSerializerWrite(serializers.ModelSerializer):
@@ -62,10 +69,9 @@ class BrandSerializerWrite(serializers.ModelSerializer):
             "id",
             "str_name",
             "str_description",
-            "str_image_link",
+            "url_image",
             "category",
         ]
-
 
 class BrandSerializerRead(serializers.ModelSerializer):
     class Meta:
@@ -74,5 +80,5 @@ class BrandSerializerRead(serializers.ModelSerializer):
             "id",
             "str_name",
             "str_description",
-            "str_image_link",
+            "url_image",
         ]

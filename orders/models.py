@@ -14,6 +14,9 @@ class Order(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     str_deposit_number = models.CharField(max_length=12, null=False, blank=False)
     total = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+    zip_code = models.CharField(max_length=6, null=False, blank=False)
+    details = models.TextField(null=True, blank=True)
+
 
 class DetailOrder(BaseModel):
     """

@@ -120,9 +120,9 @@ WSGI_APPLICATION = "ElectroGuate.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "ElectroDB",
-        "USER": "ElectroDev",
-        "PASSWORD": "electro2020",
+        "NAME": "ElectroGuateDB",
+        "USER": "ElectroGuate",
+        "PASSWORD": "electroguate2020",
         "HOST": "localhost",
         "DATABASE_PORT": "3306",
     }

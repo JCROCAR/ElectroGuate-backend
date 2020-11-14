@@ -20,6 +20,7 @@ from django.conf import settings
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
+from .settings import DEBUG
 
 
 
@@ -30,21 +31,26 @@ urlpatterns1 = [
     path("api/orders/", include("orders.urls")),
     path("api/payments/", include("payments.urls")),
 ]
-schema_view = get_schema_view(
-    openapi.Info(
-        title="ElectroGuate API",
-        default_version="v1",
-        description="ElectroGuate API Documentation",
-        terms_of_service="electroguate.me/",
-        contact=openapi.Contact(email="contact@electroGuate.local"),
-        license=openapi.License(name="Open License"),
-    ),
-    public=True,
-    patterns=urlpatterns1,
-    permission_classes=[permissions.AllowAny],
-)
-urlpatterns = urlpatterns1 + [
-    path("", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-]
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if DEBUG:
+    schema_view = get_schema_view(
+        openapi.Info(
+            title="ElectroGuate API",
+            default_version="v1",
+            description="ElectroGuate API Documentation",
+            terms_of_service="electroguate.me/",
+            contact=openapi.Contact(email="contact@electroGuate.local"),
+            license=openapi.License(name="Open License"),
+        ),
+        public=True,
+        patterns=urlpatterns1,
+        permission_classes=[permissions.AllowAny],
+    )
+    urlpatterns = urlpatterns1 + [
+        path("", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    ]
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns = urlpatterns1
+    

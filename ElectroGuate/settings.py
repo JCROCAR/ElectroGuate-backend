@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "9@4-@s=q^^%zn3f6h!)09vlzjp(b_(+8v6q8e5#cva76qj1es^"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 HOSTS = {
     True: [
@@ -32,7 +32,7 @@ HOSTS = {
         "ec2-54-197-39-116.compute-1.amazonaws.com",
         "localhost",
     ],
-    False: ["api.electroguate.me"],
+    False: ["172.31.91.183"],
 }
 
 ALLOWED_HOSTS = HOSTS[DEBUG]

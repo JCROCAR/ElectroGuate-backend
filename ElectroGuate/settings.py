@@ -28,8 +28,8 @@ DEBUG = True
 HOSTS = {
     True: [
         "127.0.0.1",
-        "34.227.72.9",
-        "ec2-34-227-72-9.compute-1.amazonaws.com",
+        "54.197.39.116",
+        "ec2-54-197-39-116.compute-1.amazonaws.com",
         "localhost",
     ],
     False: ["api.electroguate.me"],

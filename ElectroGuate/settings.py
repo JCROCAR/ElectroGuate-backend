@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "products",
     "orders",
     "payments",
+    "django_filters",
 ]
 SWAGGER_SETTINGS = {
     "USE_SESSION_AUTH": False,
@@ -75,6 +76,7 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
 }
 
 AUTH_USER_MODEL = "users.User"
@@ -92,6 +94,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = ["http://localhost:4200"]
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "ElectroGuate.urls"
 

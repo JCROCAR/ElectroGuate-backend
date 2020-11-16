@@ -42,6 +42,7 @@ schema_view = get_schema_view(
     public=True,
     patterns=urlpatterns1,
     permission_classes=[permissions.AllowAny],
+    url='http://127.0.0.1:8000'
 )
 urlpatterns = urlpatterns1 + [
     path("", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),

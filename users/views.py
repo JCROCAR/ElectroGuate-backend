@@ -7,7 +7,8 @@ from django.conf import settings
 from . import models, serializers
 from utils.pagination import PaginationData
 from utils import permissions
-
+from django_filters import rest_framework as filters
+from .filters import UserFilter
 # Create your views here.
 
 
@@ -18,6 +19,8 @@ class UserListAPIView(generics.ListCreateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializerWrite
     pagination_class = PaginationData
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = UserFilter
 
 #GET, PUT, DELETE
 class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):

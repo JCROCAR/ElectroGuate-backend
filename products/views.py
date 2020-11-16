@@ -1,4 +1,3 @@
-import re
 from .models import (
     Product,
     Category,
@@ -16,7 +15,9 @@ from .serializers import (
 from rest_framework import generics, status
 from rest_framework.response import Response
 from utils import pagination, upload_firebase
-
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+from .filters import ProductFilter, BrandFilter, CategoryFilter
 
 # Create your views here.
 class ProductList(generics.ListCreateAPIView):
@@ -26,6 +27,9 @@ class ProductList(generics.ListCreateAPIView):
         "get": ProductSerializer,
     }
     pagination_class = pagination.PaginationData
+    filter_backends = (DjangoFilterBackend,filters.OrderingFilter)
+    filterset_class = ProductFilter
+    ordering_fields = ["str_name", "int_price"]
 
     def create(self, request):
         products = request.data["products"]
@@ -58,26 +62,6 @@ class ProductList(generics.ListCreateAPIView):
             return Response(products_response, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        #
-
-    def get(self, request, format=None):
-        products = self.get_queryset()
-        # Filtro para obtener los 'productos' según nombre ingresado
-        products = (
-            products
-            if request.GET.get("str_name", None) is None
-            else products.filter(str_name=request.GET.get("str_name"))
-        )
-        page = self.paginate_queryset(products)
-        response = Response()
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            response = self.paginator.get_paginated_response(serializer.data)
-        else:
-            serializer = self.get_serializer(products, many=True)
-            response.data = serializer.data
-            response.status_code = status.HTTP_200_OK
-        return response
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -95,6 +79,9 @@ class CategoryList(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializerWrite
     pagination_class = pagination.PaginationData
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_class = CategoryFilter
+    ordering_fields = ["str_name"]
 
     def create(self, request):
         image_url = upload_firebase.image(
@@ -119,6 +106,9 @@ class BrandList(generics.ListCreateAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializerWrite
     pagination_class = pagination.PaginationData
+    filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
+    filterset_class = BrandFilter
+    ordering_fields = ["str_name"]
 
     def create(self, request):
         image_url = upload_firebase.image(

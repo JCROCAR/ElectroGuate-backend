@@ -22,7 +22,6 @@ from drf_yasg import openapi
 from rest_framework import permissions
 
 
-
 urlpatterns1 = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
@@ -30,11 +29,15 @@ urlpatterns1 = [
     path("api/orders/", include("orders.urls")),
     path("api/payments/", include("payments.urls")),
 ]
+description=""
+archivo=open(settings.BASE_DIR+"/ElectroGuate/cambios.md","r")
+for linea in archivo:
+    description+=linea
 schema_view = get_schema_view(
     openapi.Info(
         title="ElectroGuate API",
         default_version="v1",
-        description="ElectroGuate API Documentation",
+        description=description,
         terms_of_service="electroguate.me/",
         contact=openapi.Contact(email="contact@electroGuate.local"),
         license=openapi.License(name="Open License"),
@@ -42,10 +45,10 @@ schema_view = get_schema_view(
     public=True,
     patterns=urlpatterns1,
     permission_classes=[permissions.AllowAny],
-    url='http://127.0.0.1:8000'
+    url="http://127.0.0.1:8000",
 )
 urlpatterns = urlpatterns1 + [
-    path("", schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path("", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),
 ]
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

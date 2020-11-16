@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Permission
 from .models import (
     Product,
     Category,
@@ -18,6 +19,7 @@ from utils import pagination, upload_firebase
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from .filters import ProductFilter, BrandFilter, CategoryFilter
+from rest_framework import permissions
 
 # Create your views here.
 class ProductList(generics.ListCreateAPIView):
@@ -30,6 +32,7 @@ class ProductList(generics.ListCreateAPIView):
     filter_backends = (DjangoFilterBackend,filters.OrderingFilter)
     filterset_class = ProductFilter
     ordering_fields = ["str_name", "int_price"]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self, request):
         products = request.data["products"]
@@ -73,6 +76,7 @@ class ProductList(generics.ListCreateAPIView):
 class ProductDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class CategoryList(generics.ListCreateAPIView):
@@ -82,6 +86,7 @@ class CategoryList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = CategoryFilter
     ordering_fields = ["str_name"]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self, request):
         image_url = upload_firebase.image(
@@ -100,6 +105,7 @@ class CategoryList(generics.ListCreateAPIView):
 class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializerRead
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class BrandList(generics.ListCreateAPIView):
@@ -109,6 +115,8 @@ class BrandList(generics.ListCreateAPIView):
     filter_backends = [DjangoFilterBackend,filters.OrderingFilter]
     filterset_class = BrandFilter
     ordering_fields = ["str_name"]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
     def create(self, request):
         image_url = upload_firebase.image(
@@ -127,3 +135,4 @@ class BrandList(generics.ListCreateAPIView):
 class BrandDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializerRead
+    permission_classes = [permissions.IsAuthenticated]

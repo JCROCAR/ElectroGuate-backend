@@ -23,14 +23,7 @@ class UserSerializerWrite(serializers.ModelSerializer):
     """
     class Meta:
         model = User
-        fields = (
-            'id',
-            'str_name',
-            'str_surname',
-            'str_email',
-            'str_role',
-            'str_phone_number'
-        )
+        fields = '__all__'
     def create(self, validated_data):
         user = User(**validated_data)
         user.is_active = True

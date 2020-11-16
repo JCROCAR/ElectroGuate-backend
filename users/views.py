@@ -15,13 +15,17 @@ from .filters import UserFilter
 #VISTA DE USUARIOS
 
 #GET Y POST
-class UserListAPIView(generics.ListCreateAPIView):
+class UserListAPIView(generics.ListAPIView):
     queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializerWrite
+    serializer_class = serializers.UserSerializerRead
     pagination_class = PaginationData
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = UserFilter
-
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
+#Post
+class UserCreateAPIView(generics.CreateAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializerWrite
 #GET, PUT, DELETE
 class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()

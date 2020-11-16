@@ -14,8 +14,10 @@ class OrderSerializerRead(serializers.ModelSerializer):
             'id',
             'created_at',
             'user',
-            'str_deposit_number',
-            'total'
+            'paypal_order_id',
+            'total',
+            'zip_code',
+            'details'
         )
 
 class OrderSerializerWrite(serializers.ModelSerializer):

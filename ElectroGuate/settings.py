@@ -32,7 +32,9 @@ HOSTS = {
         "ec2-54-197-39-116.compute-1.amazonaws.com",
         "localhost",
     ],
-    False: ["172.31.91.183"],
+    False: [
+        "api.electroguate.me"
+    ],
 }
 
 ALLOWED_HOSTS = HOSTS[DEBUG]

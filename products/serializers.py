@@ -1,4 +1,3 @@
-from pyasn1.type.univ import Null
 from rest_framework import serializers
 from .models import Product, Category, Brand
 

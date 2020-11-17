@@ -23,7 +23,6 @@ from rest_framework import permissions
 from .settings import DEBUG
 
 
-
 urlpatterns1 = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),

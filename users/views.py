@@ -7,18 +7,25 @@ from django.conf import settings
 from . import models, serializers
 from utils.pagination import PaginationData
 from utils import permissions
-
+from django_filters import rest_framework as filters
+from .filters import UserFilter
 # Create your views here.
 
 
 #VISTA DE USUARIOS
 
 #GET Y POST
-class UserListAPIView(generics.ListCreateAPIView):
+class UserListAPIView(generics.ListAPIView):
+    queryset = models.User.objects.all()
+    serializer_class = serializers.UserSerializerRead
+    pagination_class = PaginationData
+    filter_backends = [filters.DjangoFilterBackend]
+    filterset_class = UserFilter
+    permission_classes = permissions.DEFAULT_PERMISSIONS_CLASSES
+#Post
+class UserCreateAPIView(generics.CreateAPIView):
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializerWrite
-    pagination_class = PaginationData
-
 #GET, PUT, DELETE
 class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = models.User.objects.all()
